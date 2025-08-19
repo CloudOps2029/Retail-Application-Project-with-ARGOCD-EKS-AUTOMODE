@@ -8,7 +8,7 @@ metadata:
 spec:
   project: retail-store
   source:
-    repoURL: https://github.com/CloudOps2029/EKS-AUTOMODE--Retail-Application-Project-with-ARGOCD-GitOps-Approach-
+    repoURL: https://github.com/CloudOps2029/Retail-Application-Project-with-ARGOCD-EKS-AUTOMODE
     targetRevision: main
     path: src/catalog/chart
     helm:
