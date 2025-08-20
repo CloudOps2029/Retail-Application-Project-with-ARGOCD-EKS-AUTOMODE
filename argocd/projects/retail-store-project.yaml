@@ -7,7 +7,7 @@ spec:
   description: Retail Store Sample Application
   
   sourceRepos:
-    - 'https://github.com/CloudOps2029/EKS-AUTOMODE--Retail-Application-Project-with-ARGOCD-GitOps-Approach-'
+    - 'https://github.com/CloudOps2029/Retail-Application-Project-with-ARGOCD-EKS-AUTOMODE'
   
   destinations:
     - namespace: retail-store
