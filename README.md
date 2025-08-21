@@ -1,48 +1,75 @@
-# EKS-Retail-Application-Project-with-ARGOCD-GitOps
-Retail Store Sample App - GitOps with Amazon EKS Auto Mode
-This is a sample application designed to illustrate various concepts related to containers on AWS. It presents a sample retail store application including a product catalog, shopping cart and checkout, deployed using modern DevOps practices including GitOps and Infrastructure as Code.
 
-Quick Installation Scripts
-🔧 One-Click Installation
-Follow these steps to deploy the application:
+## Introduction
+In today’s cloud-native world, applications aren’t just monoliths anymore. They’re **collections of microservices**, each running independently, scaling on demand, and deployed with speed.  
 
-Step 1. Configure AWS with Root User Credentials:
-Ensure your AWS CLI is configured with the Root user credentials:
+To demonstrate these concepts, I built the **Retail Store Sample App** — a fully cloud-native application deployed on **Amazon EKS**, following **GitOps** principles and cloud best practices.  
 
-aws configure
-Step 2. Clone the Repository:
-git clone https://github.com/CloudOps2029/Retail-Application-Project-with-ARGOCD-EKS-AUTOMODE
+This article will walk you through the **architecture, deployment process, and lessons learned** from building this project.  
+
+---
+
+## Why This Project?
+The goal wasn’t just to build a “retail store.” Instead, it was to **over-engineer an application** so it can be a learning ground for:
+
+- **Microservices development** across different languages (Java, Go, Node.js).  
+- **Container orchestration** with Kubernetes on AWS.  
+- **GitOps automation** with ArgoCD and GitHub Actions.  
+- **Infrastructure as Code** with Terraform.  
+- **Dual-branch deployment strategies** for *demos vs production*.  
+
+---
+
+## Architecture Overview
+The Retail Store is made up of **five core microservices**:
+
+- **UI (Java)** → the frontend store interface  
+- **Catalog (Go)** → product catalog API  
+- **Cart (Java)** → shopping cart API with support for MongoDB/DynamoDB  
+- **Orders (Java)** → order management API  
+- **Checkout (Node.js)** → orchestrates the checkout process  
+
+All of these services run on **EKS** and are managed with GitOps via **ArgoCD**.  
+
+On the infrastructure side, **Terraform** provisions:  
+- A secure **VPC**  
+- An **EKS cluster** (with Auto Mode enabled)  
+- **Ingress controllers, SSL certificates, and monitoring**  
+
+---
+
+## Deployment Strategy
+This project follows a **dual-branch GitOps model**:
+
+- **🌐 Main Branch (Public Deployment)**  
+   Great for **quick demos and learning**. Uses stable public images (v1.2.2) with manual deployment.  
+
+- **🏭 GitOps Branch (Production)**  
+   Tailored for **real-world production**. Every code change triggers CI/CD pipelines that build Docker images, push to private ECR, and auto-deploy via ArgoCD.  
+
+---
+
+## How to Deploy It Yourself
+1. Install prerequisites → AWS CLI, Terraform, kubectl, Docker, Helm  
+2. Configure AWS credentials  
+3. Clone the repository  
+4. Run **Terraform Phase 1** → to create VPC + EKS  
+5. Update kubeconfig  
+6. Run **Terraform Phase 2** → to deploy GitOps stack + app  
+7. Get ingress IP → access the application in your browser 🎉  
+
+---
+
+## Lessons Learned
+- **GitOps is a game-changer** → once configured, deployments feel effortless.  
+- **Over-engineering helps learning** → multiple services, multiple databases, multiple workflows.  
+- **Branching strategy matters** → separating “demo” from “production” keeps things clean.  
+
+---
+
+## Conclusion
+The **Retail Store Sample App** isn’t just an e-commerce app — it’s a **blueprint for cloud-native development**.  
+
+Whether you’re a beginner exploring Kubernetes or an engineer setting up GitOps workflows, this project provides a practical playground.  
 
 
-Phase 1 of Terraform: Create EKS Cluster
-In Phase 1: Terraform Initialises and creates resources within the retail_app_eks module.
-
-cd retail-store-sample-app/terraform/
-terraform init
-terraform apply -target=module.retail_app_eks -target=module.vpc --auto-approve
-image
-This creates the core infrastructure, including:
-
-VPC with public and private subnets
-Amazon EKS cluster with Auto Mode enabled
-Security groups and IAM roles
-Step 6: Update kubeconfig to Access the Amazon EKS Cluster:
-aws eks update-kubeconfig --name retail-store --region <region>
-
-Phase 2 of Terraform: Once you update kubeconfig, apply the Remaining Configuration:
-terraform apply --auto-approve
-This deploys:
-
-ArgoCD for Setup GitOps
-NGINX Ingress Controller
-Cert Manager for SSL certificates
-Application is live with Public image:
-
-Get your ingress EXTERNAL-IP and paste it in the browser to access retail-store application.
-kubectl get svc -n ingress-nginx
-
-
-
-
-
-
+---
